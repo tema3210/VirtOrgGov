@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Laws page{% endblock %}
+
+{% block style %}
+<style>
+    #content th, td {
+        margin: 8px;
+        padding: 8px;
+    }
+</style>
+{% endblock %}
+
+{% block code %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-3"><b>ID</b></div>
+        <div class="col-3"><b>Date</b></div>
+        <div class="col-3"><b>Status</b></div>
+        <div class="col-3"><b>Text</b></div>
+    </div>
+    {% for law in laws %}
+        <div class = "row">
+            <div class="col-3">{{law.what}}</div>
+            <div class="col-3">{{law.submit_date}}</div>
+            <div class="col-3">{{law.status}}</div>
+            <div class="col-3">
+                <button class="btn btn-primary" type = "button" data-toggle = "collapse" data-target="#laws_{{loop.index}}"> Show </button>
+            </div>
+        </div>
+        <div class="collapse row" id="laws_{{loop.index}}">
+             <div class = "card card-body">
+                 {{law.new_text}}
+             </div>
+        </div>
+    {% endfor %}
+{% endblock %}

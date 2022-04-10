@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Main page{% endblock %}
+
+{% block style %}
+
+{% endblock %}
+
+{% block code %}
+
+{% endblock %}
+
+{% block content %}
+<div class = "row">
+    <div class = "col-4">
+        <h4>Last 5 laws</h4>
+        {% for law in laws %}
+            <div>
+                <p>Law - {{law.what}}</p>
+                <hr>
+                <p>{{law.new_text}}</p>
+                <p>Change date - {{law.submit_date}}</p>
+                <p>Status - {{law.status}}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <div class = "col-4">
+        <h4>Codexes</h4>
+        {% for codex in codexes %}
+            <div>
+                <hr>
+                <p>Codex - {{codex.name}}</p>
+                <p>ID: {{codex.id}}</p>
+                <hr>
+            </div>
+        {% endfor %}
+    </div>
+    <div class = "col-4">
+        <h4>Parties</h4>
+        {% for party in parties %}
+            <div>
+                <p>Party name - {{party.name}}</p>
+                <hr>
+                <p>ID: {{party.id}}</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VirtualGov - {% block title %} {% endblock %}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+  <style>
+    #side_menu_container {
+      font-style: italic;
+      color: darkslateblue;
+      background-color: darkcyan;
+    }
+
+    #side_menu_container a {
+      color: darkslateblue;
+      text-decoration: none;
+      position: relative;
+    }
+
+    #text_logo {
+      font-size: 6vh;
+    }
+
+    #content {
+      background-color: #cbe1fb;
+    }
+
+    #footer {
+      position: absolute;
+      bottom: 0;
+      /*height: available;*/
+      display: block;
+      font-size: 2vh;
+    }
+    #footer p {
+      line-break: anywhere;
+    }
+
+    #ls_ps, #ls_off {
+     width: 80vw;
+    }
+  </style>
+  {% block style %}
+  {% endblock %}
+
+  <div class = "container-fluid">
+    <div class="row" style = "height: 100vh">
+      <div class="col-3" id="side_menu_container">
+        <div id = "text_logo">VirtOrgGov</div>
+        <ul>
+          <li><a href="">Main Menu</a></li>
+          <li>
+            <p>Laws</p>
+            <form name="law_search" action="laws">
+              <div class="form-group">
+                <label for="ls_ps">Page size:</label>
+                <input type="number" class = "form-control" id="ls_ps" name="page_size" /><br />
+              </div>
+              <div class="form-group">
+                <label for="ls_off">Offset: </label><br />
+                <input type="number" class = "form-control" id="ls_off" name="offset" /><br />
+              </div>
+              <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+          </li>
+          <!--!>TODO: add a search form<!-->
+          <li>More to come</li>
+        </ul>
+        <div id = "footer">
+          <p>Робота з дисц. віртуальних орг.</p>
+          <p>Зробив студент</p>
+          <p>Бакаев А.О; гр. ІН-303К</p>
+        </div>
+      </div>
+      <div class="col-9" id="content">
+        <!--!>Here, we have 10 columns for our rows<!-->
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+  {% block code %}
+  {% endblock %}
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
