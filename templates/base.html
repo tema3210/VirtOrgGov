@@ -45,23 +45,39 @@
   </style>
   {% block style %}
   {% endblock %}
+  <script lang="javascript">
+    function searchFormSubmit() {
+      var el_ps = document.getElementById("ls_ps").value;
+      var el_off = document.getElementById("ls_off").value;
+
+      if (el_ps === "" || el_off === "") {
+        alert("empty strings are not allowed in this form");
+        return false;
+      };
+      if (el_ps > 50 || el_ps < 1)  {
+        alert("Page size must be in 1 to 50 range");
+        return false;
+      }
+      return true;
+    }
+  </script>
 
   <div class = "container-fluid">
     <div class="row" style = "height: 100vh">
       <div class="col-3" id="side_menu_container">
         <div id = "text_logo">VirtOrgGov</div>
         <ul>
-          <li><a href="">Main Menu</a></li>
+          <li><a href="/">Main Menu</a></li>
           <li>
             <p>Laws</p>
-            <form name="law_search" action="laws">
+            <form name="law_search" action="laws" onsubmit="return searchFormSubmit()">
               <div class="form-group">
                 <label for="ls_ps">Page size:</label>
-                <input type="number" class = "form-control" id="ls_ps" name="page_size" /><br />
+                <input type="number" class = "form-control col-4" id="ls_ps" name="page_size" /><br />
               </div>
               <div class="form-group">
                 <label for="ls_off">Offset: </label><br />
-                <input type="number" class = "form-control" id="ls_off" name="offset" /><br />
+                <input type="number" class = "form-control col-4" id="ls_off" name="offset" /><br />
               </div>
               <button type="submit" class="btn btn-primary">Search</button>
             </form>
