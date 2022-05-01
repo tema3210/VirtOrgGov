@@ -47,8 +47,8 @@
   {% endblock %}
   <script lang="javascript">
     function searchFormSubmit() {
-      var el_ps = document.getElementById("ls_ps").value;
-      var el_off = document.getElementById("ls_off").value;
+      let el_ps = document.getElementById("ls_ps").value;
+      let el_off = document.getElementById("ls_off").value;
 
       if (el_ps === "" || el_off === "") {
         alert("empty strings are not allowed in this form");
@@ -59,6 +59,19 @@
         return false;
       }
       return true;
+    }
+
+    function changeFormSubmit() {
+      let lc_id = document.getElementById("lc_id").value;
+
+      const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
+
+      if (regexExp.test(lc_id)) {
+        return true;
+      } else {
+        alert("law id must be a valid UUID")
+        return false;
+      }
     }
   </script>
 
@@ -82,7 +95,16 @@
               <button type="submit" class="btn btn-primary">Search</button>
             </form>
           </li>
-          <!--!>TODO: add a search form<!-->
+          <li>
+            <p>Change law</p>
+            <form name="law_change" onsubmit="return changeFormSubmit()">
+              <div class="form-group">
+                <label for="lc_id">Law UUID:</label><br />
+                <input id="lc_id" type="text" class="col-4" /><br />
+              </div>
+              <button type="submit" class="btn btn-primary">Change</button>
+            </form>
+          </li>
           <li>More to come</li>
         </ul>
         <div id = "footer">
