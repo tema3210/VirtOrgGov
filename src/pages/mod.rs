@@ -91,6 +91,14 @@ pub struct LawsForm {
     offset: usize,
 }
 
+#[get("/change_law/{uuid}")]
+#[tracing::instrument(skip_all)]
+pub(crate) async fn change_law_page(arg: web::Path<Uuid>,_: web::Data(crate::DbPool)) -> impl Responder{
+    let arg = arg.into_inner();
+    tracing::info!("Attempt to change law {} blocked,"&arg);
+    temp::ChangeLawPage{ id: arg }
+}
+
 #[get("/laws")]
 #[tracing::instrument(skip_all)]
 pub(crate) async fn laws_page(form: web::Query<LawsForm>,pool: web::Data<crate::DbPool>) -> impl Responder {

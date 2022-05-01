@@ -12,6 +12,7 @@ type DbPool = Pool;
 pub(crate) mod schema;
 pub(crate) mod orm;
 pub(crate) mod pages;
+pub(crate) mod api;
 pub(crate) mod templates;
 
 #[derive(Parser)]
@@ -68,13 +69,17 @@ async fn main() -> io::Result<()> {
         App::new()
             .app_data(web::Data::new(build_pool(&db_url,conn_count)))
             .service(Files::new("/static",&files))
-            //register endpoints
+            //register pages
             .service(pages::index)
             .service(pages::codex_page)
             .service(pages::laws_page)
             .service(pages::law_page)
             .service(pages::party_page)
             .service(pages::politic_page)
+            .service(pages::change_law_page)
+            //register endpoints
+            .service(api::law_change_endpoint)
+
     })
     .bind(sock)?;
 

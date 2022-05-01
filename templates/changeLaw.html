@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Change law page{% endblock %}
+
+{% block style %}
+    <style>
+        #law_content {
+            height: 60vh;
+        }
+    </style>
+{% endblock %}
+
+{% block code %}
+    <script lang="javascript">
+        function sendRequest() {
+            let wish = document.getElementById("law_content").innerHTML;
+            let id = "{{id}}";
+
+            let args = {
+                content: wish,
+                id,
+            };
+            fetch("/api/changeLaw",{
+                method: 'POST',
+                mode: 'same-origin',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(args)
+            })
+            .then((resp)=> {
+                return resp.json()
+            })
+            .then((data) => {
+                alert(data.message)
+            })
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class = "row">
+    <p>Changing law {{id}}</p>
+    <pre id="law_content" contenteditable="true">Type your wish here. Anyway, server doesn't change the law.</pre>
+    <button onsubmit="sendRequest()">Submit</button>
+</div>
+{% endblock %}

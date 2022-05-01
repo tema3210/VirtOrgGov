@@ -1,5 +1,6 @@
 use askama::Template;
 use crate::orm as orm;
+use uuid::Uuid;
 
 // docs: https://djc.github.io/askama/template_syntax.html
 
@@ -15,4 +16,10 @@ pub(crate) struct Index {
 #[template(path="laws.html")]
 pub(crate) struct LawsPage {
     pub(crate) laws: Vec<orm::LawData>,
+}
+
+#[derive(Template)]
+#[template(path="changeLaw.html")]
+pub(crate) struct ChangeLawPage {
+    pub(crate) id: Uuid,
 }
