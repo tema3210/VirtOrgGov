@@ -10,7 +10,7 @@ pub struct Codex {
 #[derive(Queryable,Clone,Debug)]
 pub struct Party {
     pub id: Uuid,
-    pub name: String,
+    pub name: String
 }
 
 use crate::schema::law_data;

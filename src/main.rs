@@ -29,9 +29,9 @@ struct CmdArgs {
     /// Password for database
     #[clap(long)]
     password: String,
-    /// Port to which we bind
+    /// Socket to which we bind
     #[clap(short,long)]
-    port: u16,
+    socket: SocketAddr,
     /// A path to static files dir. Can be both relative and absolute
     #[clap(short,long)]
     files: std::path::PathBuf,
@@ -57,10 +57,12 @@ async fn main() -> io::Result<()> {
     /// Init logging
     tracing_subscriber::fmt::init();
 
-    let port = args.port;
+    let sock = args.socket;
     let db_url = format!("postgresql://{}:{}@{}/{}",&args.login,&args.password,&args.database,DB_NAME);
     let conn_count = args.connection_number.get();
     let files = args.files.clone();
+
+    tracing::info!("Initializing server");
 
     let app = HttpServer::new(move || {
         App::new()
@@ -74,8 +76,8 @@ async fn main() -> io::Result<()> {
             .service(pages::party_page)
             .service(pages::politic_page)
     })
-    .bind(format!("127.0.0.1:{}",port))?;
+    .bind(sock)?;
 
-    tracing::info!("App init done");
+    tracing::info!("Server init done");
     app.run().await
 }
