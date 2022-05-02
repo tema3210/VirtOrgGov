@@ -43,7 +43,9 @@
 {% block content %}
 <div class = "row">
     <p>Changing law {{id}}</p>
+    <button class="btn btn-primary" onclick="sendRequest()">Submit</button>
+</div>
+<div class = "row">
     <pre id="law_content" contenteditable="true">Type your wish here. Anyway, server doesn't change the law.</pre>
-    <button onsubmit="sendRequest()">Submit</button>
 </div>
 {% endblock %}

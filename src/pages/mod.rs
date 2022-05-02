@@ -1,4 +1,4 @@
-use actix_web::{Responder, get, post, web};
+use actix_web::{Responder, get, post, web, HttpResponse};
 use serde::Deserialize;
 use uuid::Uuid;
 use crate::templates as temp;
@@ -7,6 +7,7 @@ use crate::orm as orm;
 use diesel::{QueryDsl, RunQueryDsl, PgConnection, ExpressionMethods, NullableExpressionMethods, GroupByDsl};
 use actix_web::http::StatusCode;
 use diesel::query_dsl::LoadQuery;
+use std::convert::TryInto;
 
 fn get_law_data_query(offset: usize, limit: usize)  -> String {
     //safety
@@ -86,17 +87,43 @@ pub(crate) async fn index(pool: web::Data<crate::DbPool>) -> impl Responder {
 }
 
 #[derive(Deserialize)]
+pub struct ChangeLawForm {
+    id: String,
+}
+
+#[get("/changeLaw")]
+#[tracing::instrument(skip_all)]
+pub(crate) async fn change_law_page(form: web::Query<ChangeLawForm>,_pool: web::Data<crate::DbPool>) -> HttpResponse {
+    let data = Uuid::parse_str(&form.id).map_err(
+        |_| actix_web::error::InternalError::new("Bad UUID",StatusCode::BAD_REQUEST)
+    ).map(
+        |uuid| {
+            tracing::info!("Attempt to change law {} blocked",&uuid);
+            temp::ChangeLawPage{ id: uuid }
+        }
+    );
+    let mut resp = HttpResponse::build(if data.is_ok() { 200 } else { 500 }.try_into().unwrap());
+    match data {
+        Ok(data) => {
+            let mut resp = askama_actix::TemplateToResponse::to_response(&data);
+            resp.head_mut().headers_mut()
+                .insert(
+                    actix_web::http::header::CONTENT_TYPE,
+                    actix_web::http::header::HeaderValue::from_static("text/html")
+                );
+            resp
+        },
+        Err(e) => {
+            resp.content_type("text/plain");
+            resp.body(format!("{}",e))
+        }
+    }
+}
+
+#[derive(Deserialize)]
 pub struct LawsForm {
     page_size: usize,
     offset: usize,
-}
-
-#[get("/change_law/{uuid}")]
-#[tracing::instrument(skip_all)]
-pub(crate) async fn change_law_page(arg: web::Path<Uuid>,_: web::Data(crate::DbPool)) -> impl Responder{
-    let arg = arg.into_inner();
-    tracing::info!("Attempt to change law {} blocked,"&arg);
-    temp::ChangeLawPage{ id: arg }
 }
 
 #[get("/laws")]

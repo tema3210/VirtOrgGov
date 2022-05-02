@@ -20,5 +20,5 @@ struct ChangeResponse {
 pub(crate) async fn law_change_endpoint(req: web::Json<ChangeRequest>) -> HttpResponse {
     tracing::info!("Law change triggered!");
     HttpResponse::build(400.try_into().unwrap())
-        .json(web::Json(ChangeResponse{message: format!("Asked to change {} law - no",req.id), success: false}))
+        .json(ChangeResponse{message: format!("Asked to change {} law - no",req.id), success: false})
 }
